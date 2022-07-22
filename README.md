@@ -53,6 +53,29 @@ System Block Diagram
   Fig. Fire Alarm and Detection System
 
 Ardiuno Code:
+const int ledpin=13; // ledpin,flamepin and buzpin are not changed throughout the process
+const int flamepin=A2;
+const int buzpin=11;
+const int threshold=200;// sets threshold value for flame sensor
+int flamesensvalue=0; // initialize flamesensor reading
+void setup() {
+Serial.begin(9600);
+pinMode(ledpin,OUTPUT);
+pinMode(flamepin,INPUT);
+pinMode(buzpin,OUTPUT);
+}
+void loop() {
+flamesensvalue=analogRead(flamepin); // reads analog data from flame sensor
+if (flamesensvalue>=threshold) { // compares reading from flame sensor with the threshold value
+digitalWrite(ledpin,HIGH); //turns on led and buzzer
+tone(buzpin,100);
+delay(1000); //stops program for 1 second
+}
+else{
+digitalWrite(ledpin,LOW); //turns led off led and buzzer
+noTone(buzpin);
+}
+} 
  
 Implementation/Execution
 First, D0 pin of the flame sensor is connected to A2 pin of Arduino board. Then the ground pin of the sensor is connected to the ground pin of board. Vcc pin of the sensor is connected to the 5V pin of the board. Then we connect the buzzer to the breadboard in column ‘e’ and row 1(positive) and 4(negative).Then we connect the breadboard with Arduino with 2 cables where, the positive terminal is connected in column ‘b’ row 1 to 11th Digital pin of board. And the negative terminal of breadboard column ‘b’ row 4 is connected to the ground pin of the board. We connect the LED in which the positive terminal is connected to the 13th pin of the board and negative terminal is connected to the ground pin of the board. Finally we connect the Arduino to the system and upload the code. And then whenever flame comes near to the flame sensor, the LED will light up and the buzzer will start beeping & alert the user.
